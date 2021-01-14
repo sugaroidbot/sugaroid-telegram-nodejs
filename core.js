@@ -16,13 +16,15 @@ exports.sendUserMessageGetResponse = function (response, chatId, callback) {
     }
 
     // get the uniqueId from chatId
-    var chatIdHash = crypto.createHash('sha1')
-    chatIdHash.update(`${chatId}`)
-    var uuid = chatIdHash.digest('hex')
+    var chatIdHash = crypto.createHash('sha1');
+    chatIdHash.update(`${chatId}`);
+    var uuid = chatIdHash.digest('hex');
+    var callbackEndpointURL = `${BaseBackendURL}?uuid=${uuid}`;
 
+    console.log(`--> Calling ${callbackEndpointURL}`);
     // send the POST request to BaseBackendURL
     axios.post(
-        `${BaseBackendURL}?uuid=${uuid}`, 
+        callbackEndpointURL, 
         {
             "message": response
         }
